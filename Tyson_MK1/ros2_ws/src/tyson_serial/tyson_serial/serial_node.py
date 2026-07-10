@@ -21,15 +21,7 @@ class SerialNode(Node):
 
         super().__init__("serial_node")
 
-        # ---------------- Communication ----------------
-
-        self.communication = Communication(
-            PORT,
-            BAUD_RATE,
-            TIMEOUT
-        )
-
-        # ---------------- State ----------------
+        self.communication = Communication( PORT, BAUD_RATE, TIMEOUT )
 
         self.command = MotorCommand()
 
@@ -39,38 +31,19 @@ class SerialNode(Node):
 
         # ---------------- ROS ----------------
 
-        self.cmd_sub = self.create_subscription(
-            Twist,
-            CMD_VEL_TOPIC,
-            self.cmd_callback,
-            10
-        )
+        self.cmd_sub = self.create_subscription( Twist, CMD_VEL_TOPIC, self.cmd_callback, 10 )
 
-        self.imu_pub = self.create_publisher(
-            Imu,
-            IMU_TOPIC,
-            10
-        )
+        self.imu_pub = self.create_publisher( Imu, IMU_TOPIC, 10 )
 
-        self.encoder_pub = self.create_publisher(
-            WheelData,
-            WHEEL_TOPIC,
-            10
-        )
+        self.encoder_pub = self.create_publisher( WheelData, WHEEL_TOPIC, 10 )
 
         # ---------------- Timers ----------------
 
-        self.tx_timer = self.create_timer(
-            1.0 / TX_RATE,
-            self.tx_callback
-        )
+        self.tx_timer = self.create_timer( 1.0 / TX_RATE, self.tx_callback )
 
         # ---------------- RX Thread ----------------
 
-        self.rx_thread = threading.Thread(
-            target=self.rx_loop,
-            daemon=True
-        )
+        self.rx_thread = threading.Thread( target=self.rx_loop, daemon=True )
 
         self.rx_thread.start()
 

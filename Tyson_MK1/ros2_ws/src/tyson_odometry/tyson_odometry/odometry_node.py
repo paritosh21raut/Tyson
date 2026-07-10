@@ -21,47 +21,18 @@ class OdometryNode(Node):
 
         super().__init__("odometry_node")
 
-        # ----------------------------
-        # Subscriber
-        # ----------------------------
+        self.create_subscription(WheelData,"/wheel_data",self.wheel_callback,10)
 
-        self.create_subscription(
-            WheelData,
-            "/wheel_data",
-            self.wheel_callback,
-            10
-        )
-
-        # ----------------------------
-        # Publisher
-        # ----------------------------
-
-        self.odom_pub = self.create_publisher(
-            Odometry,
-            "/odom",
-            10
-        )
+        self.odom_pub = self.create_publisher(Odometry,"/odom",10)
 
         self.tf_broadcaster = TransformBroadcaster(self)
-
-        # ----------------------------
-        # Pose
-        # ----------------------------
 
         self.x = 0.0
         self.y = 0.0
         self.theta = 0.0
 
-        # ----------------------------
-        # Velocity
-        # ----------------------------
-
         self.linear_velocity = 0.0
         self.angular_velocity = 0.0
-
-        # ----------------------------
-        # Previous encoder readings
-        # ----------------------------
 
         self.prev_fl = None
         self.prev_fr = None
@@ -72,8 +43,6 @@ class OdometryNode(Node):
 
         self.get_logger().info("Odometry Node Started")
 
-
-    # =========================================================
 
     def wheel_callback(self, msg):
 
@@ -139,10 +108,7 @@ class OdometryNode(Node):
 
     def compute_distance(self, delta_ticks):
 
-        return (
-            (2.0 * math.pi * WHEEL_RADIUS)
-            * (delta_ticks / ENCODER_CPR)
-        )
+        return ((2.0 * math.pi * WHEEL_RADIUS) * (delta_ticks / ENCODER_CPR))
 
 
     # =========================================================

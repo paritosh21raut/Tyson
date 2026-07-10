@@ -27,20 +27,19 @@ void Motor::computeWheelSpeeds()
     right_.speed = omega_right * RAD_PER_SEC_TO_RPM * GEAR_RATIO;
 
     left_.speed = constrain(left_.speed, -MAX_MOTOR_SPEED, MAX_MOTOR_SPEED);
-
     right_.speed = constrain(right_.speed, -MAX_MOTOR_SPEED, MAX_MOTOR_SPEED);
 }
 
 void Motor::updateDirection()
 {
-    left_.direction = (left_.speed >= 0.0f) ? 0 : 1;
+    left_.direction  = (left_.speed >= 0.0f) ? 0 : 1;
     right_.direction = (right_.speed >= 0.0f) ? 1 : 0;
 
     if (left_.direction != left_.previous_direction)
     {
         for (uint8_t i = 0; i < 2; i++)
         {
-            rmcs.Enable_Digital_Mode(MOTOR_IDS[i],left_.direction);
+            rmcs.Enable_Digital_Mode(MOTOR_IDS[i], left_.direction);
         }
 
         left_.previous_direction = left_.direction;
@@ -50,19 +49,32 @@ void Motor::updateDirection()
     {
         for (uint8_t i = 2; i < 4; i++)
         {
-            rmcs.Enable_Digital_Mode(MOTOR_IDS[i],right_.direction);
+            rmcs.Enable_Digital_Mode(MOTOR_IDS[i], right_.direction);
         }
 
         right_.previous_direction = right_.direction;
     }
-}
+} 
 
 void Motor::driveMotors()
 {
+    if (fabs(left_.speed) == 0.0f && fabs(right_.speed) == 0.0f)
+    {
+        stop();
+        return;
+    }
+
+    // Always re-enable after stop()
     for (uint8_t i = 0; i < 2; i++)
     {
-        rmcs.Speed(MOTOR_IDS[i],fabs(left_.speed));
-        rmcs.Speed(MOTOR_IDS[i + 2],fabs(right_.speed));
+        rmcs.Enable_Digital_Mode(MOTOR_IDS[i], left_.direction);
+        rmcs.Enable_Digital_Mode(MOTOR_IDS[i + 2], right_.direction);
+    }
+
+    for (uint8_t i = 0; i < 2; i++)
+    {
+        rmcs.Speed(MOTOR_IDS[i], fabs(left_.speed));
+        rmcs.Speed(MOTOR_IDS[i + 2], fabs(right_.speed));
     }
 }
 
@@ -79,10 +91,9 @@ void Motor::stop()
 {
     for (uint8_t i = 0; i < 2; i++)
     {
-        rmcs.Disable_Digital_Mode(MOTOR_IDS[i],left_.direction);
-        rmcs.Disable_Digital_Mode(MOTOR_IDS[i + 2],right_.direction);
+        rmcs.Disable_Digital_Mode(MOTOR_IDS[i], left_.direction);
+        rmcs.Disable_Digital_Mode(MOTOR_IDS[i + 2], right_.direction);
     }
-
 }
 
 uint32_t Motor::lastCommandTime() const

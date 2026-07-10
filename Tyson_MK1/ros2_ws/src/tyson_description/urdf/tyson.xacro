@@ -1,0 +1,194 @@
+<?xml version="1.0" ?>
+<robot name="tyson" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find tyson_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find tyson_description)/urdf/tyson.ros2control" />
+<xacro:include filename="$(find tyson_description)/urdf/tyson.gazebo" />
+<link name="base_link">
+  <inertial>
+    <origin xyz="3.443387508644423e-06 2.458380024091806e-06 0.11917837981794291" rpy="0 0 0"/>
+    <mass value="25.445910887020688"/>
+    <inertia ixx="0.374368" iyy="0.766544" izz="0.996266" ixy="-1.3e-05" iyz="4.1e-05" ixz="8.3e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find tyson_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find tyson_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="wheel_fr_1">
+  <inertial>
+    <origin xyz="-7.771561172376096e-16 -0.010000000000000037 -8.881784197001252e-16" rpy="0 0 0"/>
+    <mass value="0.28698034200312494"/>
+    <inertia ixx="0.000211" iyy="0.000403" izz="0.000211" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.208 0.166 -0.053" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find tyson_description)/meshes/wheel_fr_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="black"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.208 0.166 -0.053" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find tyson_description)/meshes/wheel_fr_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="wheel_rr_1">
+  <inertial>
+    <origin xyz="-2.7755575615628914e-17 -0.010000000000000009 -6.938893903907228e-18" rpy="0 0 0"/>
+    <mass value="0.28698034200312494"/>
+    <inertia ixx="0.000211" iyy="0.000403" izz="0.000211" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.208 0.166 -0.053" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find tyson_description)/meshes/wheel_rr_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="black"/>
+  </visual>
+  <collision>
+    <origin xyz="0.208 0.166 -0.053" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find tyson_description)/meshes/wheel_rr_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="wheel_fl_1">
+  <inertial>
+    <origin xyz="2.7755575615628914e-17 0.010000000000000037 3.004606332276949e-07" rpy="0 0 0"/>
+    <mass value="0.28698034200312494"/>
+    <inertia ixx="0.000211" iyy="0.000403" izz="0.000211" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.208 -0.166 -0.052606" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find tyson_description)/meshes/wheel_fl_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="black"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.208 -0.166 -0.052606" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find tyson_description)/meshes/wheel_fl_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="wheel_rl_1">
+  <inertial>
+    <origin xyz="-2.7755575615628914e-17 0.010000000000000009 -6.938893903907228e-18" rpy="0 0 0"/>
+    <mass value="0.28698034200312494"/>
+    <inertia ixx="0.000211" iyy="0.000403" izz="0.000211" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.208 -0.166 -0.053" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find tyson_description)/meshes/wheel_rl_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="black"/>
+  </visual>
+  <collision>
+    <origin xyz="0.208 -0.166 -0.053" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find tyson_description)/meshes/wheel_rl_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="lidar_link_1">
+  <inertial>
+    <origin xyz="6.230771487094929e-18 6.230771487094929e-18 0.02241035041579241" rpy="0 0 0"/>
+    <mass value="0.2966804327814234"/>
+    <inertia ixx="0.000145" iyy="0.000145" izz="0.000192" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.0 -0.0 -0.076" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find tyson_description)/meshes/lidar_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="black"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.0 -0.0 -0.076" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find tyson_description)/meshes/lidar_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="imu_link_1">
+  <inertial>
+    <origin xyz="0.0 0.0 -0.000999999999999987" rpy="0 0 0"/>
+    <mass value="0.0029268000000000024"/>
+    <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.0 -0.0 -0.073" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find tyson_description)/meshes/imu_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="black"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.0 -0.0 -0.073" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find tyson_description)/meshes/imu_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="wheel_fr_joint" type="continuous">
+  <origin xyz="0.208 -0.166 0.053" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="wheel_fr_1"/>
+  <axis xyz="0.0 -1.0 0.0"/>
+</joint>
+
+<joint name="wheel_rr_joint" type="continuous">
+  <origin xyz="-0.208 -0.166 0.053" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="wheel_rr_1"/>
+  <axis xyz="0.0 -1.0 0.0"/>
+</joint>
+
+<joint name="wheel_fl_joint" type="continuous">
+  <origin xyz="0.208 0.166 0.052606" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="wheel_fl_1"/>
+  <axis xyz="0.0 1.0 0.0"/>
+</joint>
+
+<joint name="wheel_rl_joint" type="continuous">
+  <origin xyz="-0.208 0.166 0.053" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="wheel_rl_1"/>
+  <axis xyz="0.0 1.0 0.0"/>
+</joint>
+
+<joint name="lidar_joint" type="fixed">
+  <origin xyz="0.0 0.0 0.076" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="lidar_link_1"/>
+</joint>
+
+<joint name="imu_joint" type="fixed">
+  <origin xyz="0.0 0.0 0.073" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="imu_link_1"/>
+</joint>
+
+</robot>
