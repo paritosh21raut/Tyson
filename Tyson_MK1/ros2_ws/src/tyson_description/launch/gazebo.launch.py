@@ -1,9 +1,10 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, TimerAction
+from launch.actions import IncludeLaunchDescription, TimerAction, RegisterEventHandler
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
+from launch.event_handlers import OnProcessExit
 import xacro
 from os.path import join
 
@@ -16,7 +17,7 @@ def generate_launch_description():
     robot_description_file = os.path.join(pkg_ros_gz_rbot, 'urdf', 'tyson.xacro')
     ros_gz_bridge_config = os.path.join(pkg_ros_gz_rbot, 'config', 'ros_gz_bridge_gazebo.yaml')
     
-    robot_description_config = xacro.process_file(robot_description_file)
+    robot_description_config = xacro.process_file(robot_description_file,mappings = {"use_sim":"true"})
     robot_description = {'robot_description': robot_description_config.toxml()}
 
    
@@ -59,9 +60,39 @@ def generate_launch_description():
         output='screen'
     )
 
+    joint_state_broadcaster_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster"],
+        output="screen",
+    )
+
+    diff_drive_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["diff_drive_controller"],
+        output="screen",
+    )
+
+    load_joint_state_broadcaster = RegisterEventHandler(
+        OnProcessExit(
+            target_action=spawn_robot.actions[0],
+            on_exit=[joint_state_broadcaster_spawner],
+        )
+    )
+
+    load_diff_drive_controller = RegisterEventHandler(
+        OnProcessExit(
+            target_action=joint_state_broadcaster_spawner,
+            on_exit=[diff_drive_controller_spawner],
+        )
+    )
+
     return LaunchDescription([
         gazebo,
-        spawn_robot,
-        ros_gz_bridge,
         robot_state_publisher,
+        ros_gz_bridge,
+        spawn_robot,
+        load_joint_state_broadcaster,
+        load_diff_drive_controller,
     ])

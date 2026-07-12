@@ -1,0 +1,58 @@
+controller_manager:
+  ros__parameters:
+
+    update_rate: 100
+
+    joint_state_broadcaster: 
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    diff_drive_controller:
+      type: diff_drive_controller/DiffDriveController 
+
+diff_drive_controller:
+  ros__parameters:
+
+    left_wheel_names:
+      - wheel_fl_joint
+      - wheel_rl_joint
+    
+    right_wheel_names:
+      - wheel_fr_joint
+      - wheel_rr_joint
+
+    wheel_separation: 0.38
+    wheel_radius: 0.053
+    wheels_per_side: 2
+
+    cmd_vel_timeout: 0.5
+
+    publish_rate: 50.0
+
+    odom_frame_id: odom
+    base_frame_id: base_link
+
+    odom_topic: odom
+
+    enable_odom_tf: true
+
+    open_loop: false
+
+    position_feedback: true
+
+    use_stamped_vel: false
+
+    velocity_rolling_window_size: 10
+
+    publish_limited_velocity: false
+
+    linear.x.has_velocity_limits: true
+    linear.x.max_velocity: 0.55
+    linear.x.min_velocity: -0.55
+
+    angular.z.has_velocity_limits: true
+    angular.z.max_velocity: 2.5
+    angular.z.min_velocity: -2.5
+
+joint_state_broadcaster:
+  ros__parameters:
+    publish_rate: 50.0
