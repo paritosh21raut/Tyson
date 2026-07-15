@@ -24,6 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'cmd_vel_bridge = tyson_bringup.cmd_vel_bridge:main',
         ],
     },
 )

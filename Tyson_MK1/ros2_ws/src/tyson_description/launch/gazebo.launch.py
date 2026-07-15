@@ -13,7 +13,6 @@ def generate_launch_description():
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
     pkg_ros_gz_rbot = get_package_share_directory('tyson_description')
 
-
     robot_description_file = os.path.join(pkg_ros_gz_rbot, 'urdf', 'tyson.xacro')
     ros_gz_bridge_config = os.path.join(pkg_ros_gz_rbot, 'config', 'ros_gz_bridge_gazebo.yaml')
     
@@ -28,7 +27,6 @@ def generate_launch_description():
         output='screen',
         parameters=[robot_description],
     )
-
    
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(join(pkg_ros_gz_sim, "launch", "gz_sim.launch.py")),
